@@ -2,26 +2,26 @@ let calcStr = '';
 
 function calculation(bufferStr) {
    // Добавляем пробелы вокруг математических операций и скобок
-   bufferStr = bufferStr = bufferStr.replace(/([^[0-9.]{1})/g, " $1 ").trim();
+   bufferStr = bufferStr = bufferStr.replace(/([^[0-9.]{1})/g, ' $1 ').trim();
    // Удаляем сдвоенные пробелы
-   bufferStr = bufferStr.replace(/ {1,}/g, " ");
+   bufferStr = bufferStr.replace(/ {1,}/g, ' ');
    // Добавляем все элементы строки в массив
    const bufferArr = bufferStr.split(/\s/);
 
    // Формируем обратную польскую запись:
    // 1+(2+5)*10 => 1,2,5,+,10,*,+
-   let polishString = new Array;
-   let polishStack = new Array;
+   let polishString = [];
+   let polishStack = [];
    let stringId = -1;
    let stackId = -1;
 
    for (let i = 0; i < bufferArr.length; i++) {
       switch (bufferArr[i]) {
-         case "+":
-            while (stackId >= 0 && (polishStack[stackId] === "+"
-               || polishStack[stackId] === "-"
-               || polishStack[stackId] === "*"
-               || polishStack[stackId] === "/")) {
+         case '+':
+            while (stackId >= 0 && (polishStack[stackId] === '+'
+               || polishStack[stackId] === '-'
+               || polishStack[stackId] === '*'
+               || polishStack[stackId] === '/')) {
                stringId++;
                polishString[stringId] = polishStack[stackId];
                stackId--;
@@ -29,11 +29,11 @@ function calculation(bufferStr) {
             stackId++;
             polishStack[stackId] = bufferArr[i];
             break;
-         case "-":
-            while (stackId >= 0 && (polishStack[stackId] === "+"
-               || polishStack[stackId] === "-"
-               || polishStack[stackId] === "*"
-               || polishStack[stackId] === "/")) {
+         case '-':
+            while (stackId >= 0 && (polishStack[stackId] === '+'
+               || polishStack[stackId] === '-'
+               || polishStack[stackId] === '*'
+               || polishStack[stackId] === '/')) {
                stringId++;
                polishString[stringId] = polishStack[stackId];
                stackId--;
@@ -41,8 +41,8 @@ function calculation(bufferStr) {
             stackId++;
             polishStack[stackId] = bufferArr[i];
             break;
-         case "*":
-            while (stackId >= 0 && (polishStack[stackId] === "*" || polishStack[stackId] === "/")) {
+         case '*':
+            while (stackId >= 0 && (polishStack[stackId] === '*' || polishStack[stackId] === '/')) {
                stringId++;
                polishString[stringId] = polishStack[stackId];
                stackId--;
@@ -50,8 +50,8 @@ function calculation(bufferStr) {
             stackId++;
             polishStack[stackId] = bufferArr[i];
             break;
-         case "/":
-            while (stackId >= 0 && (polishStack[stackId] === "*" || polishStack[stackId] === "/")) {
+         case '/':
+            while (stackId >= 0 && (polishStack[stackId] === '*' || polishStack[stackId] === '/')) {
                stringId++;
                polishString[stringId] = polishStack[stackId];
                stackId--;
@@ -89,19 +89,19 @@ function calculation(bufferStr) {
 
    for (stringId = 0; stringId <= stringIdMax; stringId++) {
       switch (polishString[stringId]) {
-         case "+":
+         case '+':
             stackId--;
             polishStack[stackId] = polishStack[stackId] + polishStack[stackId + 1];
             break;
-         case "-":
+         case '-':
             stackId--;
             polishStack[stackId] = polishStack[stackId] - polishStack[stackId + 1];
             break;
-         case "*":
+         case '*':
             stackId--;
             polishStack[stackId] = polishStack[stackId] * polishStack[stackId + 1];
             break;
-         case "/":
+         case '/':
             stackId--;
             polishStack[stackId] = polishStack[stackId] / polishStack[stackId + 1];
             break;
