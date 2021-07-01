@@ -119,32 +119,40 @@ function equal() {
       try {
          result = calculation(calcStr);
       } catch (error) {
-         result = "Ошибка в выражении";
+         result = 'Ошибка в выражении!';
       }
-      document.form.textview.value = calcStr + '=' + result;
+
+      if (isNaN(result)) result = 'Ошибка в выражении!';
+
+      const cellDisplay = document.querySelector('.cell__display');
+      cellDisplay.textContent = calcStr + '=' + result;
    }
 }
 
 function addToInput(value) {
    calcStr += value;
    calcStr = control(calcStr);
-   document.form.textview.value = calcStr;
+   const cellDisplay = document.querySelector('.cell__display');
+   cellDisplay.textContent = calcStr;
 }
 
 function clean() {
+   calcStr = '0';
+   const cellDisplay = document.querySelector('.cell__display');
+   cellDisplay.textContent = calcStr;
    calcStr = '';
-   document.form.textview.value = calcStr;
 }
 
 function back() {
    calcStr = calcStr.substr(0, calcStr.length - 1);
-   document.form.textview.value = calcStr;
+   const cellDisplay = document.querySelector('.cell__display');
+   cellDisplay.textContent = calcStr;
 }
 
 function control(checkStr) {
-   checkStr = checkStr.replace(/\++/g, "+");
-   checkStr = checkStr.replace(/\--/g, "+");
-   checkStr = checkStr.replace(/\.\./g, ".");
-   checkStr = checkStr.replace(/[+-][-+]/g, "-");
+   checkStr = checkStr.replace(/\++/g, '+');
+   checkStr = checkStr.replace(/\--/g, '+');
+   checkStr = checkStr.replace(/\.\./g, '.');
+   checkStr = checkStr.replace(/[+-][-+]/g, '-');
    return checkStr;
 }
